@@ -16,10 +16,10 @@ sudo mv go-ipfs/ipfs /usr/local/bin &&
 rm -rf go-ipfs
 
 ipfs init &&
-sed -i s#127.0.0.1/tcp/5001#0.0.0.0/tcp/5001#g /data/gitblox/config
+sed -i s#127.0.0.1/tcp/8080#0.0.0.0/tcp/8080#g /data/gitblox/config #Global access to gateway
 
 sudo cp ./ipfs.service /etc/systemd/system/
 sudo systemctl enable ipfs
 sudo systemctl start ipfs
 
-echo "deployed"
+echogreen "deployment completed!"

@@ -26,8 +26,7 @@ resource "aws_key_pair" "auth" {
 }
 
 provider "aws" {
-  region  = var.workspace_regions[terraform.workspace]
-  version = "~> 4.22"
+  region = var.workspace_regions[terraform.workspace]
 }
 
 terraform {
@@ -37,6 +36,13 @@ terraform {
     key                  = "terraform.tfstate"
     region               = "us-east-1"
     encrypt              = true
+  }
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.22.0"
+    }
   }
 }
 

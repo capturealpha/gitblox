@@ -1,0 +1,5 @@
+ip_whitelist = []
+prefix       = "gitblox"
+root_domain  = "gitblox.io"
+ssh_key_1    = ""
+ssh_key_2    = ""
