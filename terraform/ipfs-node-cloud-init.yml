@@ -1,0 +1,35 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+users:
+    - name: ${prefix}
+      sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+      groups: sudo, docker
+      shell: /bin/bash
+      ssh_authorized_keys:
+          - "${ssh_key_1}"
+          - "${ssh_key_2}"
+packages:
+    - fail2ban
+    - jq
+    - prometheus-node-exporter
+    - python3-pip
+preserve_hostname: false
+fqdn: ${fqdn}
+hostname: ${fqdn}
+write_files:
+    - path: /etc/environment
+      content: |
+          IPFS_PATH="${ipfs_path}"
+          NODE_NUMBER=${ipfs_node_number}
+          REGION="${region}"
+          WORKSPACE="${workspace}"
+      append: true
+runcmd:
+    - pip3 install awscli
+    - sed -i -e '/^Port/s/^.*$/Port ${ssh_port}/' /etc/ssh/sshd_config
+    - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+    - sed -i -e '$aAllowUsers ${prefix}' /etc/ssh/sshd_config
+    - echo '* soft nofile 512000' >> /etc/security/limits.conf
+    - echo '* hard nofile 512000' >> /etc/security/limits.conf
