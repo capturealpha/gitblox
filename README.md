@@ -1,2 +1,3 @@
-# gitblox
+# GitBlox
+
 Git IPFS Storage
