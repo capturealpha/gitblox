@@ -16,9 +16,11 @@ sudo mv go-ipfs/ipfs /usr/local/bin &&
 rm -rf go-ipfs
 
 ipfs init &&
-sed -i s#127.0.0.1/tcp/8080#0.0.0.0/tcp/8080#g /data/gitblox/config #Global access to gateway
+sed -i s#127.0.0.1/tcp/8080#0.0.0.0/tcp/8080#g ${DATA_DIR}/config #Global access to gateway
 
-sudo cp ./ipfs.service /etc/systemd/system/
+sed -i s#%DATA_DIR%#${DATA_DIR}#g ./ipfs.service
+sed -i s#%USER%#${USER}#g ./ipfs.service
+sudo mv ./ipfs.service /etc/systemd/system/
 sudo systemctl enable ipfs
 sudo systemctl start ipfs
 
