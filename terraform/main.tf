@@ -16,6 +16,13 @@ data "aws_ebs_snapshot_ids" "ipfs_data" {
   }
 }
 
+data "aws_ebs_snapshot_ids" "git_data" {
+  filter {
+    name   = "tag:Name"
+    values = ["${var.prefix}${var.git_snapshot_name}:${terraform.workspace}"]
+  }
+}
+
 data "aws_acm_certificate" "cert" {
   domain = "*.${terraform.workspace}.${var.root_domain}"
 }

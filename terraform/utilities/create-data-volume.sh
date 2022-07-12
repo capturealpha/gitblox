@@ -6,7 +6,7 @@ if ! df -h | grep "/data"; then
     sudo mkdir -p /data &&
     sudo mount /dev/nvme1n1 /data &&
     echo "/dev/nvme1n1 /data xfs defaults 0 2" | sudo tee -a /etc/fstab &&
-    sudo mkdir -p /data/ipfa &&
+    sudo mkdir -p ${DATA_DIR} &&
     sudo chown -R ${USER}:${USER} /data/ &&
     sudo chmod -R ugo+rw /data/
 fi
