@@ -25,7 +25,25 @@ variable "ipfs_node_instance_types" {
   }
 }
 
+variable "git_server_instance_types" {
+  default = {
+    default = "t3a.medium"
+    develop = "t3a.medium"
+    stage   = "t3a.large"
+    prod    = "t3a.large"
+  }
+}
+
 variable "ipfs_node_count" {
+  default = {
+    default = 1
+    develop = 1
+    stage   = 1
+    prod    = 1
+  }
+}
+
+variable "git_server_count" {
   default = {
     default = 1
     develop = 1
@@ -73,6 +91,16 @@ variable "ipfs_node_data_volume_size" {
   default     = "16"
 }
 
+variable "git_server_root_volume_size" {
+  description = "Desired root volume size in GB"
+  default     = "16"
+}
+
+variable "git_server_data_volume_size" {
+  description = "Desired chain data volume size in GB"
+  default     = "16"
+}
+
 variable "swap_size" {
   description = "Desired swap file size in GB"
   default     = "2"
@@ -83,16 +111,15 @@ variable "ubuntu_account_number" {
   default     = "099720109477"
 }
 
-variable "indexer_snapshot_name" {
-  description = "Graph indexer data snapshot name"
-  default     = "indexer_data"
-}
-
 variable "ipfs_snapshot_name" {
   description = "IPFS data snapshot name"
   default     = "ipfs_data"
 }
 
+variable "git_snapshot_name" {
+  description = "Git data snapshot name"
+  default     = "git_data"
+}
 variable "root_domain" {
   description = "DNS root domain lookup"
 }
@@ -111,5 +138,10 @@ variable "ssh_key_2" {
 
 variable "ipfs_path" {
   description = "IPFS path for data storage"
-  default     = "/data/gitblox"
+  default     = "/data/gitblox/ipfs"
+}
+
+variable "git_path" {
+  description = "Git path for data storage"
+  default     = "/data/gitblox/git"
 }

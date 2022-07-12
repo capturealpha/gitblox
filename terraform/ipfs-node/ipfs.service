@@ -7,9 +7,9 @@ Type=simple
 Restart=always
 RestartSec=1
 StartLimitInterval=0
-User=gitblox
-Group=gitblox
-Environment="IPFS_PATH=/data/gitblox"
+User=%USER%
+Group=%USER%
+Environment="IPFS_PATH=%DATA_DIR%"
 ExecStart=/usr/local/bin/ipfs daemon --enable-gc
 LimitNOFILE=500000
 

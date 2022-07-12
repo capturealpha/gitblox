@@ -12,7 +12,10 @@ users:
           - "${ssh_key_2}"
 packages:
     - fail2ban
+    - fcgiwrap
+    - git
     - jq
+    - nginx
     - prometheus-node-exporter
     - python3-pip
 preserve_hostname: false
@@ -22,8 +25,9 @@ write_files:
     - path: /etc/environment
       content: |
           DATA_DIR="${data_dir}"
-          IPFS_PATH="${ipfs_path}"
-          NODE_NUMBER=${ipfs_node_number}
+          DOMAIN="${domain}"
+          FQDN="${fqdn}"
+          NODE_NUMBER=${git_server_number}
           REGION="${region}"
           WORKSPACE="${workspace}"
       append: true

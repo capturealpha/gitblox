@@ -13,6 +13,7 @@ resource "aws_instance" "ipfs_node" {
     delete = "10m"
   }
   user_data = templatefile("${abspath(path.root)}/ipfs-node-cloud-init.yml", {
+    data_dir         = var.ipfs_path
     fqdn             = "${var.prefix}-ipfs-node-${terraform.workspace}-${count.index + 1}.${var.root_domain}"
     prefix           = var.prefix
     ssh_port         = var.ssh_port

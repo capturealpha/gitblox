@@ -23,3 +23,24 @@ resource "aws_route53_record" "ipfs_node" {
   ttl     = "300"
   records = [aws_instance.ipfs_node[count.index].public_ip]
 }
+
+resource "aws_route53_record" "git_elb" {
+  zone_id = data.aws_route53_zone.root.zone_id
+  count   = var.git_server_count[terraform.workspace]
+  name    = "git.${terraform.workspace}.${var.root_domain}"
+  type    = "A"
+  alias {
+    name                   = aws_elb.git[count.index].dns_name
+    zone_id                = aws_elb.git[count.index].zone_id
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_route53_record" "git_server" {
+  zone_id = data.aws_route53_zone.root.zone_id
+  count   = var.git_server_count[terraform.workspace]
+  name    = "git-server-${count.index}.${terraform.workspace}.${var.root_domain}"
+  type    = "A"
+  ttl     = "300"
+  records = [aws_instance.git_server[count.index].public_ip]
+}

@@ -1,6 +1,6 @@
-resource "aws_security_group" "ipfs_node_elb" {
-  name        = "${var.prefix}-ipfs-node-elb-${terraform.workspace}"
-  description = "${var.prefix} ipfs-node ELB ${terraform.workspace}"
+resource "aws_security_group" "git_server_elb" {
+  name        = "${var.prefix}-git-server-elb-${terraform.workspace}"
+  description = "${var.prefix} git-server ELB ${terraform.workspace}"
   vpc_id      = aws_vpc.main.id
 
   ingress {
@@ -19,15 +19,15 @@ resource "aws_security_group" "ipfs_node_elb" {
   }
 }
 
-resource "aws_elb" "ipfs" {
-  name            = "${var.prefix}-ipfs-${terraform.workspace}-${count.index + 1}"
-  count           = var.ipfs_node_count[terraform.workspace]
+resource "aws_elb" "git" {
+  name            = "${var.prefix}-git-${terraform.workspace}-${count.index + 1}"
+  count           = var.git_server_count[terraform.workspace]
   subnets         = aws_subnet.public.*.id
-  security_groups = [aws_security_group.ipfs_node_elb.id]
-  instances       = [aws_instance.ipfs_node[count.index].id]
+  security_groups = [aws_security_group.git_server_elb.id]
+  instances       = [aws_instance.git_server[count.index].id]
 
   listener {
-    instance_port      = 8080
+    instance_port      = 80
     instance_protocol  = "http"
     lb_port            = 443
     lb_protocol        = "https"
@@ -38,7 +38,7 @@ resource "aws_elb" "ipfs" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:8080/ipfs/Qmaisz6NMhDB51cCvNWa1GMS7LU1pAxdF4Ld6Ft9kZEP2a"
+    target              = "HTTP:80/test-repo/info/refs"
     interval            = 30
   }
 
@@ -48,9 +48,9 @@ resource "aws_elb" "ipfs" {
   connection_draining_timeout = 400
 
   tags = {
-    Name        = "ipfs-${var.prefix}-${terraform.workspace}-${count.index + 1}"
+    Name        = "git-${var.prefix}-${terraform.workspace}-${count.index + 1}"
     environment = terraform.workspace
     group       = var.prefix
-    type        = "ipfs"
+    type        = "git"
   }
 }
