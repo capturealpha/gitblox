@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-const usageMsg = `usage git-remote-gitblox <repository> [<URL>]
+/*const usageMsg = `usage git-remote-gitblox <repository> [<URL>]
 supports:
 
 * gitblox://ipfs/$hash/path..
@@ -25,7 +25,7 @@ supports:
 func usage() {
 	fmt.Fprint(os.Stderr, usageMsg)
 	os.Exit(2)
-}
+}*/
 
 var (
 	ref2hash = make(map[string]string)
