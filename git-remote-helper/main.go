@@ -6,7 +6,6 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"reflect"
 	"strings"
 
 	"github.com/capturealpha/gitblox/git-remote-gitblox/internal/path"
