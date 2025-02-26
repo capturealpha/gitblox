@@ -25,7 +25,7 @@ func fetchFullBareRepo(root string) (string, error) {
 }
 
 func interrupt() error {
-	c := make(chan os.Signal)
+	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 	return errors.Errorf("%s", <-c)
 }
