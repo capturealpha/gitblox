@@ -119,6 +119,7 @@ func speakGit(r io.Reader, w io.Writer) error {
 	//r = debug.NewReadLogrus(debugLog, r)
 	//w = debug.NewWriteLogrus(debugLog, w)
 	scanner := bufio.NewScanner(r)
+	outerLoop:
 	for scanner.Scan() {
 		text := scanner.Text()
 		log.Log("text", text)
@@ -135,7 +136,7 @@ func speakGit(r io.Reader, w io.Writer) error {
 				err     error
 				head    string
 			)
-			if err = listInfoRefs(forPush); err == nil { // try .git/info/refs first
+			if err = listInfoRefs(/* forPush */); err == nil { // try .git/info/refs first
 				if head, err = listHeadRef(); err != nil {
 					return err
 				}
@@ -144,7 +145,7 @@ func speakGit(r io.Reader, w io.Writer) error {
 					log.Log("msg", "for-push: should be able to push to non existant.. TODO #2")
 				}
 				log.Log("err", err, "msg", "didn't find info/refs in repo, falling back...")
-				if err = listIterateRefs(forPush); err != nil {
+				if err = listIterateRefs(/* forPush */); err != nil {
 					return err
 				}
 			}
@@ -182,7 +183,7 @@ func speakGit(r io.Reader, w io.Writer) error {
 				}
 				text = scanner.Text()
 				if text == "" {
-					return nil
+					break outerLoop
 				}
 			}
 			fmt.Fprintln(w, "")
@@ -220,7 +221,7 @@ func speakGit(r io.Reader, w io.Writer) error {
 			fmt.Fprintln(w, "")
 
 		case text == "":
-			break
+			break outerLoop
 
 		default:
 			return errors.Errorf("Error: default git speak: %q", text)

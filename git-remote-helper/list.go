@@ -11,7 +11,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func listInfoRefs(forPush bool) error {
+func listInfoRefs(/* forPush bool */) error {
 	log.Log(filepath.Join(ipfsRepoPath, "info", "refs"))
 	refsCat, err := ipfsShell.Cat(filepath.Join(ipfsRepoPath, "info", "refs"))
 	if err != nil {
@@ -52,7 +52,7 @@ func listHeadRef() (string, error) {
 	return headHash, headCat.Close()
 }
 
-func listIterateRefs(forPush bool) error {
+func listIterateRefs(/* forPush bool */) error {
 	refsDir := filepath.Join(ipfsRepoPath, "refs")
 	return Walk(refsDir, func(p string, info *shell.LsLink, err error) error {
 		if err != nil {

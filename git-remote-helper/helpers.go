@@ -3,13 +3,13 @@ package main
 import (
 	"os"
 	"os/signal"
-	"path/filepath"
+	//"path/filepath"
 	"syscall"
 
 	"github.com/pkg/errors"
 )
 
-func fetchFullBareRepo(root string) (string, error) {
+/*func fetchFullBareRepo(root string) (string, error) {
 	// TODO: get host from envvar
 	tmpPath := filepath.Join("/", os.TempDir(), root)
 	_, err := os.Stat(tmpPath)
@@ -22,7 +22,7 @@ func fetchFullBareRepo(root string) (string, error) {
 	default:
 		return "", errors.Wrap(err, "os.Stat(): unhandled error")
 	}
-}
+}*/
 
 func interrupt() error {
 	c := make(chan os.Signal, 1)
