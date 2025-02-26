@@ -48,16 +48,13 @@ func push(src, dst string) error {
 		}(sha1)
 	}
 	for n > 0 {
-		select {
-		// add timeout?
-		case p := <-added:
-			if p.Err != nil {
-				return p.Err
-			}
-			log.Log("sha1", p.Sha1, "mhash", p.MHash, "msg", "added")
-			objHash2multi[p.Sha1] = p.MHash
-			n--
+		p := <-added
+		if p.Err != nil {
+			return p.Err
 		}
+		log.Log("sha1", p.Sha1, "mhash", p.MHash, "msg", "added")
+		objHash2multi[p.Sha1] = p.MHash
+		n--
 	}
 	root, err := ipfsShell.ResolvePath(ipfsRepoPath)
 	if err != nil {

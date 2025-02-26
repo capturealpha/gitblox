@@ -182,7 +182,7 @@ func speakGit(r io.Reader, w io.Writer) error {
 				}
 				text = scanner.Text()
 				if text == "" {
-					break
+					return nil
 				}
 			}
 			fmt.Fprintln(w, "")
